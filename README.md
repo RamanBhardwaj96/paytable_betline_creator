@@ -2,7 +2,6 @@
 
 ```
 version 0.0.1
-
 ```
 
 project to create paytable winning sequence
@@ -11,4 +10,4 @@ project to create paytable winning sequence
 2. launch index.html
 3. copy everything from text area and pase it under your parent tag i.e betlines (rest autoformat will handle).
 
-optional: you can copy everyhting from console to
+optional: you can copy everyhting from console too.
