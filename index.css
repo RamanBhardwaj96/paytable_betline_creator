@@ -1,0 +1,40 @@
+
+/* Betlines */
+ .betlines {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: center;
+}
+
+
+ .betline{
+    width:7em;
+    margin: 0em 0.5em 0.5em 0.5em;
+}
+
+ .betline tr{
+    height: 1.5em;
+}
+
+ .betline table{
+    width: 100%;
+    border-spacing: 0;
+    border-collapse: collapse;
+}
+
+ .betline td{
+    border: 1px solid #111111;
+    background-color: transparent;
+}
+
+ .betline td.active{
+    background-color: rgba(228, 19, 19, 0.4);
+}
+
+.betlineNumber{
+    font-size: 1em;
+    width: 100%;
+    float: left;
+    text-align: center;
+}
