@@ -2,36 +2,51 @@
 let config = {
     numberOfRows: 3,
     numberOfcolumns: 6,
-    numberOfBetlines: 25
+    // provide here winline data array from init if ways game make sure it is empty
+
+    betlinesPattern: [],
+
+    // keeping this as an example
+    // e.g      betlinesPattern: [       
+    //     [0, 0, 0, 0, 0, 0],
+    //     [1, 1, 1, 1, 1, 1],
+    //     [2, 2, 2, 2, 2, 2],
+    //     [0, 1, 1, 1, 1, 0],
+    //     [2, 1, 1, 1, 1, 2],
+    //     [1, 0, 0, 0, 0, 1],
+    //     [1, 2, 2, 2, 2, 1],
+    //     [0, 1, 0, 1, 0, 1],
+    //     [1, 2, 1, 2, 1, 2],
+    //     [1, 0, 1, 0, 1, 0],
+    //     [2, 1, 2, 1, 2, 1],
+    //     [2, 1, 0, 0, 0, 0],
+    //     [0, 1, 2, 2, 2, 2],
+    //     [0, 0, 0, 0, 1, 2],
+    //     [2, 2, 2, 2, 1, 0],
+    //     [0, 0, 1, 1, 2, 2],
+    //     [2, 2, 1, 1, 0, 0],
+    //     [0, 0, 1, 2, 2, 2],
+    //     [2, 2, 1, 0, 0, 0],
+    //     [1, 1, 2, 1, 0, 1],
+    //     [1, 1, 0, 1, 2, 1],
+    //     [1, 0, 1, 2, 1, 0],
+    //     [1, 2, 1, 0, 1, 2],
+    //     [0, 0, 0, 1, 1, 1],
+    //     [2, 2, 2, 1, 1, 1]
+    // ],
+
+
+    // provide here waysWin data array, if line-game make sure it is empty
+    waysPattern: [
+        [
+           
+            [false, false, true, false, false, false],
+            [false, true, false, false, false, false],    // each patten mxn length  should match  numberOfRows,  numberOfcolumns
+            [true, false, false, false, false, false]
+        ]
+    ]
+
 };
-// make sure numberOfBetlines===gameBetlineData.length
-let gameBetlineData = [
-    [0, 0, 0, 0, 0, 0],
-    [1, 1, 1, 1, 1, 1],
-    [2, 2, 2, 2, 2, 2],
-    [0, 1, 1, 1, 1, 0],
-    [2, 1, 1, 1, 1, 2],
-    [1, 0, 0, 0, 0, 1],
-    [1, 2, 2, 2, 2, 1],
-    [0, 1, 0, 1, 0, 1],
-    [1, 2, 1, 2, 1, 2],
-    [1, 0, 1, 0, 1, 0],
-    [2, 1, 2, 1, 2, 1],
-    [2, 1, 0, 0, 0, 0],
-    [0, 1, 2, 2, 2, 2],
-    [0, 0, 0, 0, 1, 2],
-    [2, 2, 2, 2, 1, 0],
-    [0, 0, 1, 1, 2, 2],
-    [2, 2, 1, 1, 0, 0],
-    [0, 0, 1, 2, 2, 2],
-    [2, 2, 1, 0, 0, 0],
-    [1, 1, 2, 1, 0, 1],
-    [1, 1, 0, 1, 2, 1],
-    [1, 0, 1, 2, 1, 0],
-    [1, 2, 1, 0, 1, 2],
-    [0, 0, 0, 1, 1, 1],
-    [2, 2, 2, 1, 1, 1]
-];
 
 
 let body = document.getElementsByTagName("BODY")[0]
@@ -43,7 +58,8 @@ body.appendChild(parentElement);
  * function to create each betline tag,betline nu,ber
  */
 function createBetlineNumber() {
-    for (let index = 1; index <= config.numberOfBetlines; index++) {
+    let numberOfPatterns = config.betlinesPattern.length > 0 ? config.betlinesPattern.length : config.waysPattern.length;
+    for (let index = 1; index <= numberOfPatterns; index++) {
         let betline = document.createElement("div");
         betline.className = "betline";
         parentElement.appendChild(betline);
@@ -75,11 +91,35 @@ function createRowsAndItsColumns(tableTag, index) {
         tableTag.appendChild(rows);
     }
 
-    for (let b = 0; b < gameBetlineData[index - 1].length; b++) {
 
-        tableTag.children[gameBetlineData[index - 1][b]].children[b].className = "active";
+    this.startActivatingCellsBasedOnGameType(tableTag, index);
+
+}
+
+
+function startActivatingCellsBasedOnGameType(tableTag, index) {
+    if (config.betlinesPattern.length) {
+        for (let b = 0; b < config.betlinesPattern[index - 1].length; b++) {
+            tableTag.children[config.betlinesPattern[index - 1][b]].children[b].className = "active";
+        }
+    }
+    else {
+        for (let i = 0; i < config.waysPattern[index - 1].length; i++) {
+            let singlePatternData = config.waysPattern[index - 1];
+            for (let j = 0; j < singlePatternData.length; j++) {
+                for (let k = 0; k < singlePatternData[j].length; k++) {
+                    if (singlePatternData[j][k]) {
+                        tableTag.children[j].children[k].className = "active";
+                    }
+
+                }
+            }
+        }
+
     }
 }
+
+
 
 this.createBetlineNumber();
 
